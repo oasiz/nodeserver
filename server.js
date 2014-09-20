@@ -2,6 +2,8 @@ var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 var workers = {};
 
+console.log('CPU count: ' + numCPUs);
+
 if (cluster.isMaster) {
    var server = require('http').createServer();
    var io = require('socket.io').listen(server);
