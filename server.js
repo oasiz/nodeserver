@@ -1,15 +1,19 @@
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 var workers = {};
+var NODE_MODULES_PATH = '/usr/local/lib/node_modules/';
 
 console.log('CPU count: ' + numCPUs);
 
 if (cluster.isMaster) {
+   console.log('Cluster master.');
    var server = require('http').createServer();
    var io = require('socket.io').listen(server);
 
-   var redis = require('redis');
-   var RedisStore = require('socket.io-redis');
+   //var redis = require('redis');
+   //var RedisStore = require('socket.io-redis');
+   var redis = require(NODE_MODULES_PATH + 'redis');
+   var RedisStore = require(NODE_MODULES_PATH + 'socket.io/lib/stores/redis');
    io.set('store', new RedisStore({
       redisPub: redis.createClient(),
       redisSub: redis.createClient(),
@@ -24,10 +28,13 @@ if (cluster.isMaster) {
       console.log('Worker ' + worker.process.pid + ' died.');
    });
 } else {
+   console.log('Cluster.');
    var io = require('socket.io').listen(5120);
 
-   var redis = require('redis');
-   var RedisStore = require('socket.io-redis');
+   //var redis = require('redis');
+   //var RedisStore = require('socket.io-redis');
+   var redis = require(NODE_MODULES_PATH + 'redis');
+   var RedisStore = require(NODE_MODULES_PATH + 'socket.io/lib/stores/redis');
    io.set('store', new RedisStore({
       redisPub: redis.createClient(),
       redisSub: redis.createClient(),
