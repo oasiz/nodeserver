@@ -6,8 +6,8 @@ if (cluster.isMaster) {
    var server = require('http').createServer();
    var io = require('socket.io').listen(server);
 
-   var RedisStore = require('socket.io/lib/stores/redis');
-   var redis = require('socket.io/node_modules/redis');
+   var redis = require('redis');
+   var RedisStore = require('socket.io-redis');
    io.set('store', new RedisStore({
       redisPub: redis.createClient(),
       redisSub: redis.createClient(),
