@@ -63,9 +63,7 @@ if (cluster.isMaster) {
                var roomlist = io.sockets.clients(data.id_sendee);
                if (typeof roomlist[0] !== 'undefined') {
                   // Push alerts aren't that critical so use volatile
-                  socket.broadcast.to(data.id_sendee).volatile.emit('newalert', {
-                     'newalert',
-                     {sender: data.sender, msg: data.msg });
+                  // socket.broadcast.to(data.id_sendee).volatile.emit('newalert', { 'newalert', {sender: data.sender, msg: data.msg });
                }
             } else {
                socket.disconnect();
